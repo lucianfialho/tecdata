@@ -1,0 +1,1 @@
+"""Database and utility scripts for Termômetro de Tecnologia."""

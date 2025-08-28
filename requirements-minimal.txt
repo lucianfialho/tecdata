@@ -1,0 +1,11 @@
+# Core dependencies for MVP testing
+requests>=2.31.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+loguru>=0.7.0
+
+# Development dependencies
+pytest>=7.4.0

@@ -1,0 +1,26 @@
+# Core dependencies
+requests>=2.31.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+pandas>=2.2.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+loguru>=0.7.0
+alembic>=1.13.0
+
+# Development dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.12.0
+
+# Web server dependencies for Railway
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+
+# Optional dependencies for future phases
+# apache-airflow==2.7.3  # Uncomment when ready for Phase 2
+# spacy==3.7.2           # Uncomment when ready for Phase 3
+# streamlit==1.28.2      # Uncomment when ready for Phase 3

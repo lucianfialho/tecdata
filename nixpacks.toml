@@ -1,0 +1,23 @@
+[phases.setup]
+nixPkgs = ["python39", "postgresql"]
+nixLibs = ["openssl", "pkg-config"]
+
+[phases.install]
+cmds = [
+    "pip install --upgrade pip",
+    "pip install -r requirements.txt"
+]
+
+[phases.build]
+cmds = [
+    "python -c 'import sys; print(f\"Python version: {sys.version}\")'",
+    "python -c 'import sqlalchemy; print(f\"SQLAlchemy version: {sqlalchemy.__version__}\")'",
+    "python -c 'import alembic; print(f\"Alembic version: {alembic.__version__}\")'",
+]
+
+[start]
+cmd = "python app.py"
+
+[variables]
+PYTHONPATH = "/app"
+PYTHONUNBUFFERED = "1"
