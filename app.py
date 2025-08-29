@@ -54,45 +54,13 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint for Railway."""
-    try:
-        # Test database connection
-        db_healthy = DatabaseManager.test_connection()
-        
-        # Get basic system info
-        health_data = {
-            "status": "healthy" if db_healthy else "unhealthy",
-            "timestamp": datetime.utcnow().isoformat(),
-            "environment": settings.environment,
-            "database": {
-                "connected": db_healthy,
-                "url_configured": bool(settings.database.url)
-            },
-            "services": {
-                "web": True,
-                "database": db_healthy
-            }
-        }
-        
-        # Simplified health check - no complex queries that can timeout
-        if db_healthy:
-            health_data["database_note"] = "Connected and healthy"
-        else:
-            health_data["database_note"] = "Connection failed"
-        
-        status_code = 200 if db_healthy else 503
-        return JSONResponse(content=health_data, status_code=status_code)
-        
-    except Exception as e:
-        logger.error(f"Health check failed: {e}")
-        return JSONResponse(
-            content={
-                "status": "unhealthy",
-                "timestamp": datetime.utcnow().isoformat(),
-                "error": str(e)
-            },
-            status_code=503
-        )
+    """Minimal health check endpoint for Railway."""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "service": "tecdata-web",
+        "environment": settings.environment
+    }
 
 
 @app.get("/metrics")
