@@ -174,9 +174,26 @@ if __name__ == "__main__":
     
     logger.info(f"Starting web server on port {port}")
     logger.info(f"PORT environment variable: {os.environ.get('PORT', 'not set')}")
-    logger.info(f"All environment variables: {dict(os.environ)}")
     logger.info(f"Environment: {settings.environment}")
-    logger.info(f"Database URL configured: {bool(settings.database.url)}")
+    
+    # Initialize database if DATABASE_URL is available
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+        logger.info(f"DATABASE_URL found, initializing database...")
+        try:
+            import subprocess
+            result = subprocess.run([sys.executable, "init_database.py"], 
+                                 capture_output=True, text=True, timeout=60)
+            if result.returncode == 0:
+                logger.info("✅ Database initialized successfully")
+                logger.info(result.stdout)
+            else:
+                logger.error("❌ Database initialization failed")
+                logger.error(result.stderr)
+        except Exception as e:
+            logger.error(f"Failed to run database initialization: {e}")
+    else:
+        logger.warning("DATABASE_URL not found, skipping database initialization")
     
     # Run the server
     uvicorn.run(
