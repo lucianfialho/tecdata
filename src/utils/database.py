@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from typing import Generator
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import text
 from src.models.base import SessionLocal, init_db
 from .logger import get_logger
 
@@ -44,7 +45,7 @@ class DatabaseManager:
         """Test database connection."""
         try:
             with DatabaseManager.get_session() as session:
-                session.execute("SELECT 1")
+                session.execute(text("SELECT 1"))
                 logger.info("Database connection test successful")
                 return True
         except SQLAlchemyError as e:
