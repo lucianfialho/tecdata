@@ -74,36 +74,11 @@ async def health_check():
             }
         }
         
-        # Add database statistics if connected
+        # Simplified health check - no complex queries that can timeout
         if db_healthy:
-            try:
-                with DatabaseManager.get_session() as session:
-                    from src.repositories.sites import SiteRepository
-                    from src.repositories.articles import ArticleRepository
-                    
-                    site_repo = SiteRepository(session)
-                    article_repo = ArticleRepository(session)
-                    
-                    # Get Tecmundo statistics
-                    tecmundo_stats = site_repo.get_site_statistics("tecmundo")
-                    
-                    # Get recent articles count
-                    site = site_repo.get_by_site_id("tecmundo")
-                    recent_articles = 0
-                    if site:
-                        articles = article_repo.get_recent_articles(site.id, hours=24)
-                        recent_articles = len(articles) if articles else 0
-                    
-                    health_data["statistics"] = {
-                        "site_active": tecmundo_stats.get("is_active", False) if tecmundo_stats else False,
-                        "total_articles": tecmundo_stats.get("total_articles", 0) if tecmundo_stats else 0,
-                        "recent_articles_24h": recent_articles,
-                        "success_rate": tecmundo_stats.get("success_rate", 0) if tecmundo_stats else 0,
-                    }
-                    
-            except Exception as e:
-                logger.warning(f"Could not get database statistics: {e}")
-                health_data["statistics"] = {"error": "Could not retrieve statistics"}
+            health_data["database_note"] = "Connected and healthy"
+        else:
+            health_data["database_note"] = "Connection failed"
         
         status_code = 200 if db_healthy else 503
         return JSONResponse(content=health_data, status_code=status_code)
