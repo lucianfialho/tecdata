@@ -25,6 +25,12 @@ class DatabaseSettings(BaseSettings):
     @validator("url", always=True)
     def build_database_url(cls, v, values):
         """Build database URL if not provided."""
+        # Use DATABASE_URL from environment if provided (Railway sets this)
+        database_url = os.environ.get("DATABASE_URL")
+        if database_url:
+            return database_url
+        
+        # If no DATABASE_URL, build from individual components
         if v:
             return v
         return (
