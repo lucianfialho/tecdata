@@ -147,4 +147,4 @@ tmp/
 railway.json
 
 # Production environment file (keep .env.railway as template)
-.env.production
+.env.production.claude/
