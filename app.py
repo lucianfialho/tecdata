@@ -230,6 +230,8 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     
     logger.info(f"Starting web server on port {port}")
+    logger.info(f"PORT environment variable: {os.environ.get('PORT', 'not set')}")
+    logger.info(f"All environment variables: {dict(os.environ)}")
     logger.info(f"Environment: {settings.environment}")
     logger.info(f"Database URL configured: {bool(settings.database.url)}")
     
